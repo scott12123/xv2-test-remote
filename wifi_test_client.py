@@ -84,4 +84,4 @@ def log_data():
 if __name__ == "__main__":
     while True:
         log_data()
-        time.sleep(300)  # Wait 5 minutes between tests
+        time.sleep(5)  # Wait 5 minutes between tests
