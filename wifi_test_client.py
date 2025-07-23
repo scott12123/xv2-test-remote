@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+import os
+import re
 import time
 import socket
 import subprocess
@@ -59,11 +60,15 @@ def run_speedtest():
 
 def log_data():
     ssid, rssi, bssid = get_wifi_stats()
+    getserial = os.popen('snmpget -v 2c -c private 10.42.0.2 .1.3.6.1.4.1.17713.22.1.1.1.4.0')
+    readserial = getserial.read()
+    serial_number = re.findall(r'"(.*?)"', readserial)[0]
     ping = run_ping_test()
     download, upload = run_speedtest()
     timestamp = datetime.utcnow()
 
     point = Point("wifi_test") \
+        .tag("serial_number", serial_number) \
         .tag("device", device_id) \
         .tag("ssid", ssid or "unknown") \
         .tag("bssid", bssid or "unknown") \
@@ -79,4 +84,4 @@ def log_data():
 if __name__ == "__main__":
     while True:
         log_data()
-        time.sleep(60)  # Wait 5 minutes between tests
+        time.sleep(60)  # Wait 5 minutes between tests  
