@@ -6,12 +6,7 @@ import subprocess
 from datetime import datetime
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
-
-# InfluxDB configuration
-INFLUXDB_URL = "http://<CENTRAL_PI_IP>:8086"
-INFLUXDB_TOKEN = "<INSERT_YOUR_TOKEN_HERE>"
-INFLUXDB_ORG = "xv2_tests"
-INFLUXDB_BUCKET = "test_data"
+from config import INFLUXDB_URL, INFLUXDB_TOKEN, INFLUXDB_ORG, INFLUXDB_BUCKET  # Import config
 
 # Get hostname as device ID
 device_id = socket.gethostname()
