@@ -50,7 +50,7 @@ def run_ping_test(target="8.8.8.8"):
 
 def run_speedtest():
     try:
-        result = subprocess.check_output("speedtest-cli --simple", shell=True).decode()
+        result = subprocess.check_output("speedtest-cli --secure --simple", shell=True).decode()
         download = upload = None
         for line in result.split("\n"):
             if "Download" in line:
