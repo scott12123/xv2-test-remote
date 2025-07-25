@@ -5,6 +5,7 @@ import time
 import socket
 import subprocess
 from datetime import datetime
+import pytz  # Add this import
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 from config import INFLUXDB_URL, INFLUXDB_TOKEN, INFLUXDB_ORG, INFLUXDB_BUCKET  # Import config
@@ -65,7 +66,10 @@ def log_data():
     serial_number = re.findall(r'"(.*?)"', readserial)[0]
     ping = run_ping_test()
     download, upload = run_speedtest()
-    timestamp = datetime.utcnow()
+
+    # Set timezone to Australia/Melbourne
+    melbourne_tz = pytz.timezone("Australia/Melbourne")
+    timestamp = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(melbourne_tz)
 
     point = Point("wifi_test") \
         .tag("serial_number", serial_number) \
@@ -84,4 +88,4 @@ def log_data():
 if __name__ == "__main__":
     while True:
         log_data()
-        time.sleep(60)  # Wait 5 minutes between tests  
+        time.sleep(60)  # Wait 5 minutes between tests
