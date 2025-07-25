@@ -65,7 +65,7 @@ def log_data():
     readserial = getserial.read()
     serial_number = re.findall(r'"(.*?)"', readserial)[0]
     ping = run_ping_test()
-    download, upload = run_speedtest()
+#    download, upload = run_speedtest()
 
     # Set timezone to Australia/Melbourne
     melbourne_tz = pytz.timezone("Australia/Melbourne")
@@ -78,9 +78,9 @@ def log_data():
         .tag("bssid", bssid or "unknown") \
         .field("rssi", rssi if rssi is not None else -100) \
         .field("ping_ms", ping if ping is not None else 0.0) \
-        .field("download_mbps", download if download else 0.0) \
-        .field("upload_mbps", upload if upload else 0.0) \
         .time(timestamp)
+#        .field("download_mbps", download if download else 0.0) \
+#        .field("upload_mbps", upload if upload else 0.0) \
 
     write_api.write(bucket=INFLUXDB_BUCKET, org=INFLUXDB_ORG, record=point)
     print(f"Logged data at {timestamp}")
